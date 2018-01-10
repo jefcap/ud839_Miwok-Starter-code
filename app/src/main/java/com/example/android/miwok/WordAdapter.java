@@ -3,6 +3,7 @@ package com.example.android.miwok;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,10 +71,19 @@ public class WordAdapter extends ArrayAdapter<Word> {
         defaultTextView.setText(currentWord.getDefaultTranslation());
 
         // Find the ImageView in the list_item.xml layout with the ID list_item_icon
+        Log.i("WorldAdapter.java", "ImageId: "+ currentWord.getImageResourceId());
         ImageView iconView = (ImageView) listItemView.findViewById(R.id.image);
-        // Get the image resource ID from the current AndroidFlavor object and
-        // set the image to iconView
-        iconView.setImageResource(currentWord.getImageResourceId());
+
+        // Check if an image is provided for this word or not
+        if (currentWord.hasImage()){
+            // Get the image resource ID from the current AndroidFlavor object and
+            // set the image to iconView
+            iconView.setImageResource(currentWord.getImageResourceId());
+            // Make sure the view is visible
+            iconView.setVisibility(View.VISIBLE);
+        } else {
+            iconView.setVisibility(View.GONE);
+        }
 
         // Return the whole list item layout (containing 2 TextViews and an ImageView)
         // so that it can be shown in the ListView
